@@ -757,6 +757,10 @@ filter(babynames, name == "Sea")
 
 **Your explanation of what was wrong:**
 
+We want to filter the `babynames` whose name is Sea, so we need to use
+the comparision which is `==` and the name is a string so should be put
+in the quotation marks.
+
 ## Problem 2: Most Popular Names
 
 Which name was the most popular for a single gender in a single year?
@@ -766,21 +770,20 @@ Compare arranging by `prop` vs `n`.
 # Your code to find highest proportion:
 babynames |>
   arrange(desc(prop)) |>
-  select(name, prop) |>
-  slice(1)
+  head(5)
 #arrange(babynames, desc(prop)) 
 # Your code to find highest count:
 babynames |>
   arrange(desc(n)) |>
-  select(name, n) |>
-  slice(1)
+  head(5)
 
 #arrange(babynames, desc(n))
 ```
 
 **Your analysis:** - Are the results the same? Why or why not?
 
--   No the results are not the same.
+-   No the results are not the same. Because \`prop\` is the proportion
+    of total of baby birth and n. While n is the absolute count
 
 ## Problem 3: Popular Girls Names in 2017
 
@@ -873,22 +876,35 @@ cholesterol_data
 
 # Your tasks:
 # 1. Convert to long format
+
+cholesterol_data_tidy <- cholesterol_data |>
+  pivot_longer(
+    cols = everything(), #all columns
+    names_to = "diet", #diet type
+    values_to = "cholesterol" #cholesterol level
+  )
+
+cholesterol_data_tidy
 # 2. Calculate n, mean, and standard deviation for each diet group
+
+cholesterol_data_tidy |>
+  group_by(diet) |>
+  summarise(
+    n = n(),  #number of observations
+    average = mean(cholesterol, na.rm = TRUE), #mean value
+    std = sd(cholesterol)
+  )
 ```
 
-```{r cholesterol-solution-student, eval=FALSE}
-# Task 1 - Convert to long format:
-
-
-# Task 2 - Calculate summary statistics:
-
-
+```{}
 ```
 
 **Your interpretation:** - Which diet appears to result in lower
 cholesterol? - What do the standard deviations tell you?
 
 *Write your analysis here:*
+
+-   \`Oat_bran\`
 
 ## Advanced Tidy Data Problems
 
@@ -905,10 +921,26 @@ helpful.
 
 ```{r calculate-rates-student, eval=FALSE}
 # Your approach for table2:
+table2 |>
+  pivot_wider(
+    names_from = type,
+    values_from = count
+  ) |>
+  mutate (rate = cases/population *10000) #calculate rate per 10000
 
 
 # Your approach for table3:
-
+table3 |>
+  separate_wider_delim(
+    cols = rate,
+    delim = "/",
+    names = c("cases", "population")
+  ) |>
+  mutate (
+    cases = as.numeric(cases),
+    population = as.numeric(population),
+    rate = cases/population * 10000
+  )
 
 ```
 
