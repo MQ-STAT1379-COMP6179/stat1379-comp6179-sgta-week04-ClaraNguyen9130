@@ -828,7 +828,7 @@ table4b  # Population
 see with the other tables? - How would you describe what each row and
 column represents in each table?
 
-*Write your analysis here:*
+*Write your analysis here: Table 1 is tidy*
 
 ## Pivoting Data: Lengthening and Widening
 
@@ -892,11 +892,11 @@ cholesterol_data_tidy |>
   summarise(
     n = n(),  #number of observations
     average = mean(cholesterol, na.rm = TRUE), #mean value
-    std = sd(cholesterol)
+    std = sd(cholesterol) #standard deviation
   )
 ```
 
-```{}
+```         
 ```
 
 **Your interpretation:** - Which diet appears to result in lower
@@ -904,7 +904,15 @@ cholesterol? - What do the standard deviations tell you?
 
 *Write your analysis here:*
 
--   \`Oat_bran\`
+-   \`Oat_bran\` has the lower cholesterol
+
+-   The **standard deviation** measures the **spread** of the data
+    around the mean.
+
+    A **smaller SD** → values are more tightly clustered around the
+    mean.
+
+    A **larger SD** → values are more spread out (greater variability).
 
 ## Advanced Tidy Data Problems
 
